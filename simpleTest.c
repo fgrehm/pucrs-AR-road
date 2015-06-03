@@ -141,6 +141,33 @@ static void DrawCube(void)
 
 }
 
+static void DrawSphere(void) {
+  double    gl_para[16];
+  GLfloat   mat_ambient[]     = {0.0, 0.0, 1.0, 1.0};
+  GLfloat   mat_flash[]       = {0.0, 0.0, 1.0, 1.0};
+  GLfloat   mat_flash_shiny[] = {50.0};
+  GLfloat   light_position[]  = {100.0,-200.0,200.0,0.0};
+  GLfloat   ambi[]            = {0.1, 0.1, 0.1, 0.1};
+  GLfloat   lightZeroColor[]  = {0.9, 0.9, 0.9, 0.1};
+
+  glEnable(GL_LIGHTING);
+
+  glEnable(GL_LIGHT0);
+  glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+  glLightfv(GL_LIGHT0, GL_AMBIENT, ambi);
+  glLightfv(GL_LIGHT0, GL_DIFFUSE, lightZeroColor);
+  glMaterialfv(GL_FRONT, GL_SPECULAR, mat_flash);
+  glMaterialfv(GL_FRONT, GL_SHININESS, mat_flash_shiny);
+  glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+
+  glPushMatrix(); // Save world coordinate system.
+  glTranslatef( 3.0, 0.0, 0.0 );
+  glutSolidSphere(0.6, 24, 24);
+  glPopMatrix();	// Restore world coordinate system.
+
+  glDisable( GL_LIGHTING );
+}
+
 static void DrawCubeUpdate(float timeDelta)
 {
 	if (gDrawRotate) {
@@ -407,6 +434,7 @@ static void Display(void)
 
 		// All lighting and geometry to be drawn relative to the marker goes here.
 		DrawCube();
+		DrawSphere();
 
 	} // gPatt_found
 
