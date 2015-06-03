@@ -161,8 +161,13 @@ static void DrawSphere(void) {
   glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
 
   glPushMatrix(); // Save world coordinate system.
-  glTranslatef( 3.0, 0.0, 0.0 );
+
+  // trick start here *********************
+  glTranslatef(0, 0, 0);
+  glRotatef(gDrawRotateAngle*5, 0, 0, 1);
+  glTranslatef(-2, -2, 0);
   glutSolidSphere(0.6, 24, 24);
+
   glPopMatrix();	// Restore world coordinate system.
 
   glDisable( GL_LIGHTING );
