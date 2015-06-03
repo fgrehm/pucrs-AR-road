@@ -179,9 +179,13 @@ static void draw( void )
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_flash_shiny);
     glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
     glMatrixMode(GL_MODELVIEW);
+
     glTranslatef( 0.0, 0.0, 25.0 );
     glutSolidCube(50.0);
-    glDisable( GL_LIGHTING );
 
+    glTranslatef( 100.0, 0.0, 0.0 );
+    glutSolidCube(50.0);
+
+    glDisable( GL_LIGHTING );
     glDisable( GL_DEPTH_TEST );
 }
