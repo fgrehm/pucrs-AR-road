@@ -66,8 +66,8 @@
 
 // Preferences.
 static int prefWindowed = TRUE;
-static int prefWidth = 640;					// Fullscreen mode width.
-static int prefHeight = 480;				// Fullscreen mode height.
+static int prefWidth = 1280;					// Fullscreen mode width.
+static int prefHeight = 720;				// Fullscreen mode height.
 static int prefDepth = 32;					// Fullscreen mode bit depth.
 static int prefRefresh = 0;					// Fullscreen mode refresh rate. Set to 0 to use default rate.
 
