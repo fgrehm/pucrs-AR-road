@@ -1,6 +1,8 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-// Coming soon...
+void DrawCube(void);
+void DrawSphere(void);
+void DrawToten(void);
 
 #endif

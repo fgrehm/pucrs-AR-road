@@ -14,8 +14,8 @@ all: pucrs-ar-road
 pucrs-ar-road: main.o $(OBJS)
 	cc -o pucrs-ar-road main.o $(OBJS) $(LDFLAG) $(LIBS)
 
-main.o: main.c $(HEADDERS)
-	cc -c $(CFLAG) main.c
+main.o: main.c $(HEADDERS) $(OBJS)
+	cc -c $(CFLAG) main.c scene.o
 
 scene.o: scene.c $(HEADDERS)
 	cc -c $(CFLAG) scene.c
