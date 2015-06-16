@@ -53,6 +53,7 @@
 #include <AR/gsub_lite.h>
 
 #include "globals.h"
+#include "scene.h"
 
 // ============================================================================
 //	Functions

@@ -6,8 +6,8 @@ LDFLAG=-pthread -lgstreamer-0.10 -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt 
 LIBS= -lARgsub_lite -lARvideo -lAR -lpthread -lglut -lGLU -lGL -lXi -lX11 -lm -pthread -lgstreamer-0.10 -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lxml2 -lglib-2.0
 CFLAG= -O -pthread -I/usr/include/gstreamer-0.10 -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/libxml2 -I/usr/X11R6/include -g -I$(INC_DIR)
 
-OBJS =
-HEADDERS = globals.h
+OBJS = scene.o
+HEADDERS = globals.h scene.h
 
 all: simpleTest
 
@@ -16,6 +16,9 @@ simpleTest: simpleTest.o $(OBJS)
 
 simpleTest.o: simpleTest.c $(HEADDERS)
 	cc -c $(CFLAG) simpleTest.c
+
+scene.o: scene.c $(HEADDERS)
+	cc -c $(CFLAG) scene.c
 
 clean:
 	rm -f *.o

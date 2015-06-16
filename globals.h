@@ -1,5 +1,5 @@
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef GLOBALS_H
+#define GLOBALS_H
 
 // ============================================================================
 //	Constants
