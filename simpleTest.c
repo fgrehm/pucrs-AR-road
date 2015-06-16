@@ -133,12 +133,46 @@ static void DrawCube(void)
 	}
 
 	glPushMatrix(); // Save world coordinate system.
-	glTranslatef(0.0, 0.0, 0.5); // Place base of cube on marker surface.
+	glTranslatef(0.5, 0.5, 0.5); // Place base of cube on marker surface.
 	glRotatef(gDrawRotateAngle, 0.0, 0.0, 1.0); // Rotate about z axis.
 	glDisable(GL_LIGHTING);	// Just use colours.
 	glCallList(polyList);	// Draw the cube.
 	glPopMatrix();	// Restore world coordinate system.
 
+}
+
+static void DrawToten(void) {
+  double    gl_para[16];
+  GLfloat   mat_ambient[]     = {0.0, 0.0, 1.0, 1.0};
+  GLfloat   mat_flash[]       = {0.0, 0.0, 1.0, 1.0};
+  GLfloat   mat_flash_shiny[] = {50.0};
+  GLfloat   light_position[]  = {100.0,-200.0,200.0,0.0};
+  GLfloat   ambi[]            = {0.1, 0.1, 0.1, 0.1};
+  GLfloat   lightZeroColor[]  = {0.9, 0.9, 0.9, 0.1};
+
+  glEnable(GL_LIGHTING);
+
+  glEnable(GL_LIGHT0);
+  glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+  glLightfv(GL_LIGHT0, GL_AMBIENT, ambi);
+  glLightfv(GL_LIGHT0, GL_DIFFUSE, lightZeroColor);
+  glMaterialfv(GL_FRONT, GL_SPECULAR, mat_flash);
+  glMaterialfv(GL_FRONT, GL_SHININESS, mat_flash_shiny);
+  glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+
+  glPushMatrix(); // Save world coordinate system.
+
+  // trick start here *********************
+  glTranslatef(1.6, 1.6, 0);
+  int i;
+  for (i = 0; i < 4; i++) {
+    glTranslatef(0, 0, 0.6);
+    glutSolidCube(1.2);
+  }
+
+  glPopMatrix();	// Restore world coordinate system.
+
+  glDisable( GL_LIGHTING );
 }
 
 static void DrawSphere(void) {
@@ -163,7 +197,7 @@ static void DrawSphere(void) {
   glPushMatrix(); // Save world coordinate system.
 
   // trick start here *********************
-  glTranslatef(0, 0, 0);
+  glTranslatef(0.5, 0.5, 1);
   glRotatef(gDrawRotateAngle*5, 0, 0, 1);
   glTranslatef(-2, -2, 0);
   glutSolidSphere(0.6, 24, 24);
@@ -438,6 +472,12 @@ static void Display(void)
 		glLoadMatrixd(m);
 
 		// All lighting and geometry to be drawn relative to the marker goes here.
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
+    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+    DrawToten();
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+
 		DrawCube();
 		DrawSphere();
 
