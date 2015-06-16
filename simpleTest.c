@@ -472,11 +472,15 @@ static void Display(void)
     glLoadMatrixd(m);
 
     // All lighting and geometry to be drawn relative to the marker goes here.
-    glEnable(GL_DEPTH_TEST);
-    glDepthMask(GL_TRUE);
-    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+    if (!arDebug) {
+      glEnable(GL_DEPTH_TEST);
+      glDepthMask(GL_TRUE);
+      glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+    }
     DrawToten();
-    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    if (!arDebug) {
+      glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    }
 
     DrawCube();
     DrawSphere();
