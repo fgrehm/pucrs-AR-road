@@ -9,22 +9,17 @@ CFLAG= -O -pthread -I/usr/include/gstreamer-0.10 -I/usr/include/glib-2.0 -I/usr/
 OBJS = scene.o
 HEADDERS = globals.h scene.h
 
-all: simpleTest
+all: pucrs-ar-road
 
-simpleTest: simpleTest.o $(OBJS)
-	cc -o simpleTest simpleTest.o $(OBJS) $(LDFLAG) $(LIBS)
+pucrs-ar-road: main.o $(OBJS)
+	cc -o pucrs-ar-road main.o $(OBJS) $(LDFLAG) $(LIBS)
 
-simpleTest.o: simpleTest.c $(HEADDERS)
-	cc -c $(CFLAG) simpleTest.c
+main.o: main.c $(HEADDERS)
+	cc -c $(CFLAG) main.c
 
 scene.o: scene.c $(HEADDERS)
 	cc -c $(CFLAG) scene.c
 
 clean:
 	rm -f *.o
-	rm -f $(BIN_DIR)/simpleTest
-
-allclean:
-	rm -f *.o
-	rm -f $(BIN_DIR)/simpleTest
-	rm -f Makefile
+	rm -f pucrs-ar-road
