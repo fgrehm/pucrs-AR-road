@@ -52,20 +52,12 @@
 #include <AR/ar.h>
 #include <AR/gsub_lite.h>
 
-#include "globals.h"
 #include "scene.h"
+#include "globals.h"
 
 // ============================================================================
 //	Functions
 // ============================================================================
-
-static void DrawCubeUpdate(float timeDelta)
-{
-  if (gDrawRotate) {
-    gDrawRotateAngle += timeDelta * 45.0f; // Rotate cube at 45 degrees per second.
-    if (gDrawRotateAngle > 360.0f) gDrawRotateAngle -= 360.0f;
-  }
-}
 
 static int setupCamera(const char *cparam_name, char *vconf, ARParam *cparam)
 {

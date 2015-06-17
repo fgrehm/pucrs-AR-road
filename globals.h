@@ -37,7 +37,7 @@ static int			gPatt_id;				// Per-marker, but we are using only 1 marker.
 // Drawing.
 static ARParam		gARTCparam;
 static ARGL_CONTEXT_SETTINGS_REF gArglSettings = NULL;
-static int gDrawRotate = FALSE;
+extern int gDrawRotate;
 static float gDrawRotateAngle = 0;			// For use in drawing.
 
 #endif

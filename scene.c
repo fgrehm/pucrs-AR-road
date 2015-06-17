@@ -4,6 +4,8 @@
 #include "globals.h"
 #include "scene.h"
 
+int gDrawRotate = FALSE;
+
 // Something to look at, draw a rotating colour cube.
 void DrawCube(void)
 {
@@ -114,4 +116,12 @@ void DrawSphere(void) {
   glPopMatrix();	// Restore world coordinate system.
 
   glDisable( GL_LIGHTING );
+}
+
+void DrawCubeUpdate(float timeDelta)
+{
+  if (gDrawRotate) {
+    gDrawRotateAngle += timeDelta * 45.0f; // Rotate cube at 45 degrees per second.
+    if (gDrawRotateAngle > 360.0f) gDrawRotateAngle -= 360.0f;
+  }
 }
