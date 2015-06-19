@@ -242,9 +242,9 @@ static void draw( double trans1[3][4], double trans2[3][4], int mode )
         glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient1);
     }
     glMatrixMode(GL_MODELVIEW);
-    glTranslatef( 0.0, 0.0, 25.0 );
-    if( !arDebug ) glutSolidCube(50.0);
-     else          glutWireCube(50.0);
+    glTranslatef( 0.0, 0.0, 10.0 );
+    if( !arDebug ) glutSolidCube(20.0);
+     else          glutWireCube(20.0);
     glDisable( GL_LIGHTING );
 
     glDisable( GL_DEPTH_TEST );
