@@ -33,4 +33,7 @@ ARParam         cparam;
 extern char *config_name;
 ARMultiMarkerInfoT  *config;
 
+/* scene settings */
+extern int showBuildings;
+
 #endif

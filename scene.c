@@ -2,6 +2,7 @@
 #include "scene.h"
 
 double distance = 0;
+int showBuildings = 0;
 
 void drawScene(int executionTime) {
   int i;
@@ -16,11 +17,6 @@ void drawScene(int executionTime) {
   argDraw3dCamera( 0, 0 );
   glClearDepth( 1.0 );
   glClear(GL_DEPTH_BUFFER_BIT);
-  for( i = 0; i < config->marker_num; i++ ) {
-      //printf("Marker %d, visible %d\n", i, config->marker[i].visible);
-      if( config->marker[i].visible >= 0 ) drawMarker( config->trans, config->marker[i].trans, 0 );
-      else                                 drawMarker( config->trans, config->marker[i].trans, 1 );
-  }
 
   // for( i = 0; i < config->marker_num; i++ ) {
   //     if (config->marker[i].visible < 0) continue;
@@ -32,10 +28,25 @@ void drawScene(int executionTime) {
 
   //     break;
   // }
+  //
+
+  if (!showBuildings) {
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
+    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+  }
+  for( i = 0; i < config->marker_num; i++ ) {
+      //printf("Marker %d, visible %d\n", i, config->marker[i].visible);
+      if( config->marker[i].visible >= 0 ) drawMarker( config->trans, config->marker[i].trans, 0 );
+      else                                 drawMarker( config->trans, config->marker[i].trans, 1 );
+  }
+  if (!showBuildings) {
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+  }
 
   // drawMarker(config->trans, config->marker[0].trans, 0);
-  double speed = 0.08;
-  distance = (executionTime % 4000) * speed;
+  double speed = 0.09;
+  distance = (executionTime % 3000) * speed;
   // if (distance >= 300) {
   //   distance = 0;
   // }

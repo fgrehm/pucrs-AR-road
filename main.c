@@ -63,6 +63,11 @@ static void   keyEvent( unsigned char key, int x, int y)
         count = 0;
     }
 
+    if( key == 'b' ) {
+        showBuildings = !showBuildings;
+        printf("*** showBuildings toggled to %d\n", showBuildings);
+    }
+
     /* turn on and off the debug mode with right mouse */
     if( key == 'd' ) {
         printf("*** %f (frame/sec)\n", (double)count/arUtilTimer());
