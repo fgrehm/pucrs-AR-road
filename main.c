@@ -28,6 +28,10 @@ char			*vconf = "";
 int thresh = 100;
 int count = 0;
 
+ARParam  cparam;
+
+int xsize, ysize;
+
 char *config_name = "Data/multi/marker.dat";
 char *cparam_name    = "Data/camera_para.dat";
 
