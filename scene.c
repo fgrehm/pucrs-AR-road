@@ -112,9 +112,9 @@ void drawMarker(double trans1[3][4], double trans2[3][4], int mode) {
 
 void drawCube(double trans1[3][4], double trans2[3][4], double x, double y) {
     double    gl_para[16];
-    GLfloat   mat_ambient[]     = {0.0, 0.0, 1.0, 1.0};
-    GLfloat   mat_flash[]       = {0.0, 0.0, 1.0, 1.0};
-    GLfloat   mat_flash_shiny[] = {50.0};
+    GLfloat   mat_ambient[]     = {0.0, 1.0, 0.0, 1.0};
+    GLfloat   mat_flash[]       = {0.0, 1.0, 0.0, 1.0};
+    GLfloat   mat_flash_shiny[] = {90.0};
     GLfloat   light_position[]  = {100.0,-200.0,200.0,0.0};
     GLfloat   ambi[]            = {0.1, 0.1, 0.1, 0.1};
     GLfloat   lightZeroColor[]  = {0.9, 0.9, 0.9, 0.1};
