@@ -127,7 +127,9 @@ static void mainLoop(void)
         argSwapBuffers();
         return;
     }
-    printf("err = %f\n", err);
+    if (arDebug) {
+      printf("err = %f\n", err);
+    }
     if(err > 100.0 ) {
         argSwapBuffers();
         return;
