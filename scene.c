@@ -43,7 +43,7 @@ void drawScene(int executionTime) {
     printf("distance = %f\n", distance);
   }
   drawCube(config->trans, config->marker[0].trans, -50+distance, -35);
-  drawCube(config->trans, config->marker[0].trans, -50+distance, -60);
+  drawCube(config->trans, config->marker[0].trans, 270-distance, -60);
 }
 
 void drawMarker(double trans1[3][4], double trans2[3][4], int mode) {
