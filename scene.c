@@ -1,7 +1,9 @@
 #include "globals.h"
 #include "scene.h"
 
-void drawScene() {
+double distance = 0;
+
+void drawScene(int executionTime) {
   int i;
 
   //for(i=0;i<3;i++) {
@@ -31,8 +33,17 @@ void drawScene() {
   //     break;
   // }
 
-  drawMarker(config->trans, config->marker[0].trans, 0);
-  drawCube(config->trans, config->marker[0].trans, -50, -50);
+  // drawMarker(config->trans, config->marker[0].trans, 0);
+  double speed = 0.08;
+  distance = (executionTime % 4000) * speed;
+  // if (distance >= 300) {
+  //   distance = 0;
+  // }
+  if (arDebug) {
+    printf("distance = %f\n", distance);
+  }
+  drawCube(config->trans, config->marker[0].trans, -50+distance, -35);
+  drawCube(config->trans, config->marker[0].trans, -50+distance, -60);
 }
 
 void drawMarker(double trans1[3][4], double trans2[3][4], int mode) {

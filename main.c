@@ -82,6 +82,20 @@ static void   keyEvent( unsigned char key, int x, int y)
 /* main loop */
 static void mainLoop(void)
 {
+    static int ms_prev;
+    int ms;
+    float s_elapsed;
+
+    // Find out how long since mainLoop() last ran.
+    ms = glutGet(GLUT_ELAPSED_TIME);
+    s_elapsed = (float)(ms - ms_prev) * 0.001;
+    if (s_elapsed < 0.01f) return; // Don't update more often than 100 Hz.
+    ms_prev = ms;
+
+    if (arDebug) {
+      printf("*** %d (ms running)\n", ms);
+    }
+
     ARUint8         *dataPtr;
     ARMarkerInfo    *marker_info;
     int             marker_num;
@@ -135,7 +149,7 @@ static void mainLoop(void)
         return;
     }
 
-    drawScene();
+    drawScene(ms);
 
     argSwapBuffers();
 }
