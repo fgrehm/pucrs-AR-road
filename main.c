@@ -132,21 +132,34 @@ static void mainLoop(void)
         argSwapBuffers();
         return;
     }
-/*
-    for(i=0;i<3;i++) {
-        for(j=0;j<4;j++) printf("%10.5f ", config->trans[i][j]);
-        printf("\n");
-    }
-    printf("\n");
-*/
+
+    //for(i=0;i<3;i++) {
+    //  int j;
+    //    for(j=0;j<4;j++) printf("%10.5f ", config->trans[i][j]);
+    //    printf("\n");
+    //}
+    //printf("\n");
+
     argDrawMode3D();
     argDraw3dCamera( 0, 0 );
     glClearDepth( 1.0 );
     glClear(GL_DEPTH_BUFFER_BIT);
+    //for( i = 0; i < config->marker_num; i++ ) {
+    //    if( config->marker[i].visible >= 0 ) draw( config->trans, config->marker[i].trans, 0 );
+    //    else                                 draw( config->trans, config->marker[i].trans, 1 );
+    //}
+
     for( i = 0; i < config->marker_num; i++ ) {
-        if( config->marker[i].visible >= 0 ) draw( config->trans, config->marker[i].trans, 0 );
-        else                                 draw( config->trans, config->marker[i].trans, 1 );
+        if (config->marker[i].visible < 0) continue;
+
+        printf("Will draw relative to %d\n", i);
+        drawMarker(config->trans, config->marker[i].trans, 0);
+        drawCube(config->trans, config->marker[i].trans, 100, 0.0);
+        drawCube(config->trans, config->marker[i].trans, 0.0, 100);
+
+        break;
     }
+
     argSwapBuffers();
 }
 
