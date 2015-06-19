@@ -1,6 +1,40 @@
 #include "globals.h"
 #include "scene.h"
 
+void drawScene() {
+  int i;
+
+  //for(i=0;i<3;i++) {
+  //  int j;
+  //    for(j=0;j<4;j++) printf("%10.5f ", config->trans[i][j]);
+  //    printf("\n");
+  //}
+  //printf("\n");
+  argDrawMode3D();
+  argDraw3dCamera( 0, 0 );
+  glClearDepth( 1.0 );
+  glClear(GL_DEPTH_BUFFER_BIT);
+  for( i = 0; i < config->marker_num; i++ ) {
+      //printf("Marker %d, visible %d\n", i, config->marker[i].visible);
+      if( config->marker[i].visible >= 0 ) drawMarker( config->trans, config->marker[i].trans, 0 );
+      else                                 drawMarker( config->trans, config->marker[i].trans, 1 );
+  }
+
+  // for( i = 0; i < config->marker_num; i++ ) {
+  //     if (config->marker[i].visible < 0) continue;
+
+  //     // printf("Will draw relative to %d\n", i);
+  //     drawMarker(config->trans, config->marker[i].trans, 0);
+  //     drawCube(config->trans, config->marker[i].trans, 30, 0.0);
+  //     drawCube(config->trans, config->marker[i].trans, 0.0, 30);
+
+  //     break;
+  // }
+
+  drawMarker(config->trans, config->marker[0].trans, 0);
+  drawCube(config->trans, config->marker[0].trans, -50, -50);
+}
+
 void drawMarker(double trans1[3][4], double trans2[3][4], int mode) {
     double    gl_para[16];
     GLfloat   mat_ambient[]     = {0.0, 0.0, 1.0, 1.0};
