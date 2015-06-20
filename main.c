@@ -32,7 +32,7 @@ ARParam  cparam;
 
 int xsize, ysize;
 
-char *config_name = "Data/multi/marker.dat";
+char *config_name = "Data/road-markers/marker.dat";
 char *cparam_name    = "Data/camera_para.dat";
 
 static void   init(void);
