@@ -1,3 +1,4 @@
 pucrs-ar-road
 main.o
 scene.o
+object.o
