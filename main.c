@@ -33,7 +33,13 @@ ARParam  cparam;
 int xsize, ysize;
 
 char *config_name = "Data/road-markers/marker.dat";
-char *cparam_name    = "Data/camera_para.dat";
+char *cparam_name = "Data/camera_para.dat";
+
+char         *model_name = "Data/road-markers/buildings.dat";
+ObjectData_T *object;
+int          objectnum;
+static int draw( ObjectData_T *object, int objectnum );
+static int  draw_object( int obj_id, double gl_para[16] );
 
 static void   init(void);
 static void   cleanup(void);
@@ -144,7 +150,46 @@ static void mainLoop(void)
         glLineWidth( 1.0 );
     }
 
+      /* check for known patterns */
+    for( i = 0; i < objectnum; i++ ) {
+        int k = -1;
+        int j;
+        for( j = 0; j < marker_num; j++ ) {
+            if( object[i].id == marker_info[j].id) {
+
+              /* you've found a pattern */
+              //printf("Found pattern: %d ",patt_id);
+              glColor3f( 0.0, 1.0, 0.0 );
+              argDrawSquare(marker_info[j].vertex,0,0);
+
+              if( k == -1 ) k = j;
+              else /* make sure you have the best pattern (highest confidence factor) */
+                if( marker_info[k].cf < marker_info[j].cf ) k = j;
+            }
+        }
+        if( k == -1 ) {
+            object[i].visible = 0;
+            continue;
+        }
+
+        /* calculate the transform for each marker */
+        if( object[i].visible == 0 ) {
+            arGetTransMat(&marker_info[k],
+                object[i].marker_center, object[i].marker_width,
+                object[i].trans);
+        }
+        else {
+          arGetTransMatCont(&marker_info[k], object[i].trans,
+                object[i].marker_center, object[i].marker_width,
+                object[i].trans);
+        }
+        object[i].visible = 1;
+    }
+
     arVideoCapNext();
+
+    /* draw the AR graphics */
+    draw( object, objectnum );
 
     if( (err=arMultiGetTransMat(marker_info, marker_num, multiMarkerConfig)) < 0 ) {
         argSwapBuffers();
@@ -187,6 +232,11 @@ static void init( void )
         printf("multiMarkerConfig data load error !!\n");
         exit(0);
     }
+    if( (object=read_ObjData(model_name, &objectnum)) == NULL ) {
+        printf("ObjData data load error !!\n");
+        exit(0);
+    }
+    printf("Objectfile num = %d\n", objectnum);
 
     /* open the graphics window */
     argInit( &cparam, 1.0, 0, 1, 0, 0 );
@@ -202,4 +252,75 @@ static void cleanup(void)
     arVideoCapStop();
     arVideoClose();
     argCleanup();
+}
+
+/* draw the the AR objects */
+static int draw( ObjectData_T *object, int objectnum )
+{
+    int     i;
+    double  gl_para[16];
+
+	glClearDepth( 1.0 );
+    glClear(GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+    glEnable(GL_LIGHTING);
+
+    /* calculate the viewing parameters - gl_para */
+    for( i = 0; i < objectnum; i++ ) {
+        if( object[i].visible == 0 ) continue;
+        argConvGlpara(object[i].trans, gl_para);
+        draw_object( object[i].id, gl_para);
+    }
+
+	glDisable( GL_LIGHTING );
+    glDisable( GL_DEPTH_TEST );
+
+    return(0);
+}
+
+/* draw the user object */
+static int  draw_object( int obj_id, double gl_para[16])
+{
+    GLfloat   mat_ambient[]				= {0.0, 0.0, 1.0, 1.0};
+	GLfloat   mat_ambient_collide[]     = {1.0, 0.0, 0.0, 1.0};
+    GLfloat   mat_flash[]				= {0.0, 0.0, 1.0, 1.0};
+	GLfloat   mat_flash_collide[]       = {1.0, 0.0, 0.0, 1.0};
+    GLfloat   mat_flash_shiny[] = {50.0};
+    GLfloat   light_position[]  = {100.0,-200.0,200.0,0.0};
+    GLfloat   ambi[]            = {0.1, 0.1, 0.1, 0.1};
+    GLfloat   lightZeroColor[]  = {0.9, 0.9, 0.9, 0.1};
+
+    argDrawMode3D();
+    argDraw3dCamera( 0, 0 );
+    glMatrixMode(GL_MODELVIEW);
+    glLoadMatrixd( gl_para );
+
+ 	/* set the material */
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ambi);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, lightZeroColor);
+
+    glMaterialfv(GL_FRONT, GL_SHININESS, mat_flash_shiny);
+
+	if(obj_id == 0){
+		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_flash_collide);
+		glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_collide);
+		/* draw a cube */
+		glTranslatef( 0.0, 0.0, 30.0 );
+		glutSolidSphere(30,12,6);
+	}
+	else {
+		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_flash);
+		glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+		/* draw a cube */
+		glTranslatef( 0.0, 0.0, 30.0 );
+		glutSolidCube(60);
+	}
+
+    argDrawMode2D();
+
+    return 0;
 }
