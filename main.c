@@ -146,7 +146,7 @@ static void mainLoop(void)
 
     arVideoCapNext();
 
-    if( (err=arMultiGetTransMat(marker_info, marker_num, config)) < 0 ) {
+    if( (err=arMultiGetTransMat(marker_info, marker_num, multiMarkerConfig)) < 0 ) {
         argSwapBuffers();
         return;
     }
@@ -183,8 +183,8 @@ static void init( void )
     printf("*** Camera Parameter ***\n");
     arParamDisp( &cparam );
 
-    if( (config = arMultiReadConfigFile(config_name)) == NULL ) {
-        printf("config data load error !!\n");
+    if( (multiMarkerConfig = arMultiReadConfigFile(config_name)) == NULL ) {
+        printf("multiMarkerConfig data load error !!\n");
         exit(0);
     }
 

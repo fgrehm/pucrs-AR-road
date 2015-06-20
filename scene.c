@@ -25,7 +25,7 @@ void drawScene(int executionTime) {
 
   //for(i=0;i<3;i++) {
   //  int j;
-  //    for(j=0;j<4;j++) printf("%10.5f ", config->trans[i][j]);
+  //    for(j=0;j<4;j++) printf("%10.5f ", multiMarkerConfig->trans[i][j]);
   //    printf("\n");
   //}
   //printf("\n");
@@ -34,13 +34,13 @@ void drawScene(int executionTime) {
   glClearDepth( 1.0 );
   glClear(GL_DEPTH_BUFFER_BIT);
 
-  // for( i = 0; i < config->marker_num; i++ ) {
-  //     if (config->marker[i].visible < 0) continue;
+  // for( i = 0; i < multiMarkerConfig->marker_num; i++ ) {
+  //     if (multiMarkerConfig->marker[i].visible < 0) continue;
 
   //     // printf("Will draw relative to %d\n", i);
-  //     drawMarker(config->trans, config->marker[i].trans, 0);
-  //     drawCube(config->trans, config->marker[i].trans, 30, 0.0);
-  //     drawCube(config->trans, config->marker[i].trans, 0.0, 30);
+  //     drawMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[i].trans, 0);
+  //     drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[i].trans, 30, 0.0);
+  //     drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[i].trans, 0.0, 30);
 
   //     break;
   // }
@@ -51,16 +51,16 @@ void drawScene(int executionTime) {
     glDepthMask(GL_TRUE);
     glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
   }
-  for( i = 0; i < config->marker_num; i++ ) {
-      //printf("Marker %d, visible %d\n", i, config->marker[i].visible);
-      if( config->marker[i].visible >= 0 ) drawMarker( config->trans, config->marker[i].trans, 0 );
-      else                                 drawMarker( config->trans, config->marker[i].trans, 1 );
+  for( i = 0; i < multiMarkerConfig->marker_num; i++ ) {
+      //printf("Marker %d, visible %d\n", i, multiMarkerConfig->marker[i].visible);
+      if( multiMarkerConfig->marker[i].visible >= 0 ) drawMarker( multiMarkerConfig->trans, multiMarkerConfig->marker[i].trans, 0 );
+      else                                 drawMarker( multiMarkerConfig->trans, multiMarkerConfig->marker[i].trans, 1 );
   }
   if (!showBuildings) {
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
   }
 
-  // drawMarker(config->trans, config->marker[0].trans, 0);
+  // drawMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 0);
   double speed = 0.09;
   distance = (executionTime % 3000) * speed;
   // if (distance >= 300) {
@@ -69,8 +69,9 @@ void drawScene(int executionTime) {
   if (arDebug) {
     printf("distance = %f\n", distance);
   }
-  drawCube(config->trans, config->marker[0].trans, -50+distance, -23, green, 7);
-  drawCube(config->trans, config->marker[0].trans, 270-distance, -36, red, 7);
+  // Cars
+  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -50+distance, -23, green, 7);
+  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 270-distance, -36, red, 7);
 }
 
 void drawMarker(double trans1[3][4], double trans2[3][4], int mode) {

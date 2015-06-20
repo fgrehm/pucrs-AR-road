@@ -3,7 +3,7 @@
 
 #include <AR/arMulti.h>
 
-ARMultiMarkerInfoT  *config;
+ARMultiMarkerInfoT  *multiMarkerConfig;
 
 /* scene settings */
 extern int showBuildings;
