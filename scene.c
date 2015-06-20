@@ -15,7 +15,7 @@
 #include "scene.h"
 
 double distance = 0;
-int showBuildings = 0;
+int showBuildings = 1;
 
 static void drawMarker(double trans1[3][4], double trans2[3][4], int mode);
 static void drawCube(double trans1[3][4], double trans2[3][4], double x, double y, GLfloat color[3], GLdouble size);
@@ -56,12 +56,14 @@ void drawScene(int executionTime) {
       if( multiMarkerConfig->marker[i].visible >= 0 ) drawMarker( multiMarkerConfig->trans, multiMarkerConfig->marker[i].trans, 0 );
       else                                 drawMarker( multiMarkerConfig->trans, multiMarkerConfig->marker[i].trans, 1 );
   }
+  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 301, 0, green, 100);
+  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 160, -230, green, 100);
   if (!showBuildings) {
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
   }
 
   // drawMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 0);
-  double speed = 0.09;
+  double speed = 0.3;
   distance = (executionTime % 3000) * speed;
   // if (distance >= 300) {
   //   distance = 0;
@@ -70,15 +72,15 @@ void drawScene(int executionTime) {
     printf("distance = %f\n", distance);
   }
   // Cars
-  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -50+distance, -23, green, 7);
-  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 270-distance, -36, red, 7);
+  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -100+distance, -90, green, 30);
+  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 800-distance, -140, red, 30);
 }
 
 void drawMarker(double trans1[3][4], double trans2[3][4], int mode) {
     if (mode == 1)
-        drawCube(trans1, trans2, 0, 0, red, 10);
+        drawCube(trans1, trans2, 0, 0, red, 40);
     else
-        drawCube(trans1, trans2, 0, 0, blue, 10);
+        drawCube(trans1, trans2, 0, 0, blue, 40);
 }
 
 void drawCube(double trans1[3][4], double trans2[3][4], double x, double y, GLfloat color[], GLdouble size) {

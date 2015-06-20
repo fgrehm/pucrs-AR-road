@@ -17,6 +17,7 @@
 #include <AR/arMulti.h>
 
 #include "globals.h"
+#include "object.h"
 #include "scene.h"
 
 #ifdef _WIN32
@@ -134,34 +135,28 @@ static void mainLoop(void)
     argDrawMode2D();
     if( !arDebug ) {
         argDispImage( dataPtr, 0,0 );
-    }
-    else {
+    } else {
         argDispImage( dataPtr, 1, 1 );
         if( arImageProcMode == AR_IMAGE_PROC_IN_HALF )
             argDispHalfImage( arImage, 0, 0 );
         else
             argDispImage( arImage, 0, 0);
-
-        glColor3f( 1.0, 0.0, 0.0 );
-        glLineWidth( 1.0 );
-        for( i = 0; i < marker_num; i++ ) {
-            argDrawSquare( marker_info[i].vertex, 0, 0 );
-        }
-        glLineWidth( 1.0 );
     }
 
-      /* check for known patterns */
+    glLineWidth( 1.5 );
+    for( i = 0; i < marker_num; i++ ) {
+        glColor3f( green[0], green[1], green[2] );
+        argDrawSquare( marker_info[i].vertex, 0, 0 );
+    }
+
+    /* check for known patterns */
     for( i = 0; i < objectnum; i++ ) {
         int k = -1;
         int j;
         for( j = 0; j < marker_num; j++ ) {
             if( object[i].id == marker_info[j].id) {
-
               /* you've found a pattern */
               //printf("Found pattern: %d ",patt_id);
-              glColor3f( 0.0, 1.0, 0.0 );
-              argDrawSquare(marker_info[j].vertex,0,0);
-
               if( k == -1 ) k = j;
               else /* make sure you have the best pattern (highest confidence factor) */
                 if( marker_info[k].cf < marker_info[j].cf ) k = j;
