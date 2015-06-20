@@ -18,7 +18,7 @@ double distance = 0;
 int showBuildings = 0;
 
 static void drawMarker(double trans1[3][4], double trans2[3][4], int mode);
-static void drawCube(double trans1[3][4], double trans2[3][4], double x, double y, GLfloat color[3]);
+static void drawCube(double trans1[3][4], double trans2[3][4], double x, double y, GLfloat color[3], GLdouble size);
 
 void drawScene(int executionTime) {
   int i;
@@ -69,18 +69,18 @@ void drawScene(int executionTime) {
   if (arDebug) {
     printf("distance = %f\n", distance);
   }
-  drawCube(config->trans, config->marker[0].trans, -50+distance, -35, green);
-  drawCube(config->trans, config->marker[0].trans, 270-distance, -60, red);
+  drawCube(config->trans, config->marker[0].trans, -50+distance, -23, green, 7);
+  drawCube(config->trans, config->marker[0].trans, 270-distance, -36, red, 7);
 }
 
 void drawMarker(double trans1[3][4], double trans2[3][4], int mode) {
     if (mode == 1)
-        drawCube(trans1, trans2, 0, 0, red);
+        drawCube(trans1, trans2, 0, 0, red, 10);
     else
-        drawCube(trans1, trans2, 0, 0, blue);
+        drawCube(trans1, trans2, 0, 0, blue, 10);
 }
 
-void drawCube(double trans1[3][4], double trans2[3][4], double x, double y, GLfloat color[]) {
+void drawCube(double trans1[3][4], double trans2[3][4], double x, double y, GLfloat color[], GLdouble size) {
     double    gl_para[16];
     GLfloat   mat_ambient[]     = {color[0], color[1], color[2], color[3]};
     GLfloat   mat_flash[]       = {color[0], color[1], color[2], color[3]};
@@ -109,9 +109,9 @@ void drawCube(double trans1[3][4], double trans2[3][4], double x, double y, GLfl
     glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
 
     glMatrixMode(GL_MODELVIEW);
-    glTranslatef( x, y, 10.0 );
-    if( !arDebug ) glutSolidCube(20.0);
-     else          glutWireCube(20.0);
+    glTranslatef( x, y, size/2 );
+    if( !arDebug ) glutSolidCube(size);
+     else          glutWireCube(size);
     glDisable( GL_LIGHTING );
 
     glDisable( GL_DEPTH_TEST );
