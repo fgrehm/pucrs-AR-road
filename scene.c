@@ -80,17 +80,17 @@ void drawCarsAndStaticBuildings(int executionTime) {
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
   }
 
-  double speed = 0.3;
+  double speed = 0.29;
   distance = (executionTime % 3000) * speed;
   if (debugLevel >= 3) {
     printf("distance = %f\n", distance);
   }
 
   // Cars
-  drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -100+distance, -90, 0, blue, 30);
-  drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -145+distance, -90, 0, red, 30);
-  drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 800-distance, -140, 0, red, 30);
-  drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 845-distance, -140, 0, blue, 30);
+  drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -55+distance, -90, 0, blue, 30);
+  drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -100+distance, -90, 0, red, 30);
+  drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 780-distance, -140, 0, red, 30);
+  drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 825-distance, -140, 0, blue, 30);
 }
 
 void drawBuildingBasedOnMarker(int markerId, double gl_para[16]) {
