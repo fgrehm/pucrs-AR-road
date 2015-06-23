@@ -18,7 +18,6 @@
 double distance = 0;
 int showBuildings = 1;
 
-static void drawMarker(double trans1[3][4], double trans2[3][4], int mode);
 static void drawCubeBasedOnRoadMarker(double trans1[3][4], double trans2[3][4], double x, double y, double z, GLfloat color[3], GLdouble size);
 static int  drawBuildingBasedOnMarker(int markerId, double gl_para[16]);
 static void drawSolidCube(double x, double y, double z, GLfloat color[], GLdouble size);
@@ -57,11 +56,7 @@ void drawCarsAndStaticBuildings(int executionTime) {
     glDepthMask(GL_TRUE);
     glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
   }
-  //for( i = 0; i < multiMarkerConfig->marker_num; i++ ) {
-  //    //printf("Marker %d, visible %d\n", i, multiMarkerConfig->marker[i].visible);
-  //    if( multiMarkerConfig->marker[i].visible >= 0 ) drawMarker( multiMarkerConfig->trans, multiMarkerConfig->marker[i].trans, 0 );
-  //    else                                 drawMarker( multiMarkerConfig->trans, multiMarkerConfig->marker[i].trans, 1 );
-  //}
+  // draw
   drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -60, -110, 0, green, 100);
   drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -60, -110, 100, green, 100);
 
@@ -85,18 +80,12 @@ void drawCarsAndStaticBuildings(int executionTime) {
     }
   }
 
-  // drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 451, 0, green, 100);
-  // drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 160, -230, green, 100);
   if (!showBuildings) {
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
   }
 
-  // drawMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 0);
   double speed = 0.3;
   distance = (executionTime % 3000) * speed;
-  // if (distance >= 300) {
-  //   distance = 0;
-  // }
   if (debugLevel >= 3) {
     printf("distance = %f\n", distance);
   }
@@ -106,13 +95,6 @@ void drawCarsAndStaticBuildings(int executionTime) {
   drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -145+distance, -90, 0, red, 30);
   drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 800-distance, -140, 0, red, 30);
   drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 845-distance, -140, 0, blue, 30);
-}
-
-void drawMarker(double trans1[3][4], double trans2[3][4], int mode) {
-  if (mode == 1)
-    drawCubeBasedOnRoadMarker(trans1, trans2, 0, 0, 0, red, 20);
-  else
-    drawCubeBasedOnRoadMarker(trans1, trans2, 0, 0, 0, blue, 20);
 }
 
 void drawCubeBasedOnRoadMarker(double trans1[3][4], double trans2[3][4], double x, double y, double z, GLfloat color[], GLdouble size) {
@@ -143,7 +125,6 @@ int drawBuildingBasedOnMarker(int markerId, double gl_para[16]) {
   return 0;
 }
 
-// TODO: Rename to something else
 void drawSolidCube(double x, double y, double z, GLfloat color[], GLdouble size) {
   GLfloat   mat_ambient[]     = {color[0], color[1], color[2], color[3]};
   GLfloat   mat_flash[]       = {color[0], color[1], color[2], color[3]};
