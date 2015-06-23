@@ -69,6 +69,10 @@ void drawCarsAndStaticBuildings(int executionTime) {
   // }
   //
 
+  // Cars
+  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -100+distance, -90, 0, green, 30);
+  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 800-distance, -140, 0, red, 30);
+
   if (!showBuildings) {
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
@@ -96,9 +100,6 @@ void drawCarsAndStaticBuildings(int executionTime) {
   if (debugLevel >= 3) {
     printf("distance = %f\n", distance);
   }
-  // Cars
-  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -100+distance, -90, 0, green, 30);
-  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 800-distance, -140, 0, red, 30);
 }
 
 void drawMarker(double trans1[3][4], double trans2[3][4], int mode) {

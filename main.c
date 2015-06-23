@@ -107,10 +107,6 @@ static void mainLoop(void)
   if (s_elapsed < 0.01f) return; // Don't update more often than 100 Hz.
   ms_prev = ms;
 
-  if (arDebug) {
-    printf("*** %d (ms running)\n", ms);
-  }
-
   ARUint8         *dataPtr;
   ARMarkerInfo    *marker_info;
   int             marker_num;
@@ -184,21 +180,22 @@ static void mainLoop(void)
 
   arVideoCapNext();
 
-  drawBuildingsThatHaveMarkers();
-
   if( (err=arMultiGetTransMat(marker_info, marker_num, multiMarkerConfig)) < 0 ) {
+    drawBuildingsThatHaveMarkers();
     argSwapBuffers();
     return;
   }
-  if (arDebug) {
-    printf("err = %f\n", err);
-  }
+  // if (arDebug) {
+  //   printf("err = %f\n", err);
+  // }
   if(err > 100.0 ) {
+    drawBuildingsThatHaveMarkers();
     argSwapBuffers();
     return;
   }
 
   drawCarsAndStaticBuildings(ms);
+  drawBuildingsThatHaveMarkers();
 
   argSwapBuffers();
 }
