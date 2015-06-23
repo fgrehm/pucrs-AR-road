@@ -29,6 +29,8 @@ char			*vconf = "";
 int thresh = 100;
 int count = 0;
 
+int debugLevel = 0;
+
 ARParam  cparam;
 
 int xsize, ysize;
@@ -70,15 +72,16 @@ static void   keyEvent( unsigned char key, int x, int y)
     count = 0;
   }
 
-  if( key == 'b' ) {
-    showBuildings = !showBuildings;
-    printf("*** showBuildings toggled to %d\n", showBuildings);
-  }
-
-  /* turn on and off the debug mode with right mouse */
+  /* turn on and off the debug mode with 'd' */
   if( key == 'd' ) {
-    printf("*** %f (frame/sec)\n", (double)count/arUtilTimer());
-    arDebug = 1 - arDebug;
+    debugLevel = (debugLevel + 1) % 4;
+    printf("*** Debug level set to %d\n", debugLevel);
+
+    showBuildings = (debugLevel >= 2);
+    printf("*** showBuildings set to %d\n", showBuildings);
+
+    arDebug = debugLevel == 3;
+    printf("*** arDebug set to %d\n", arDebug);
     if( arDebug == 0 ) {
       glClearColor( 0.0, 0.0, 0.0, 0.0 );
       glClear(GL_COLOR_BUFFER_BIT);
@@ -139,10 +142,12 @@ static void mainLoop(void)
       argDispImage( arImage, 0, 0);
   }
 
-  glLineWidth( 1.5 );
-  for( i = 0; i < marker_num; i++ ) {
-    glColor3f( green[0], green[1], green[2] );
-    argDrawSquare( marker_info[i].vertex, 0, 0 );
+  if (debugLevel > 0) {
+    glLineWidth( 1.5 );
+    for( i = 0; i < marker_num; i++ ) {
+      glColor3f( green[0], green[1], green[2] );
+      argDrawSquare( marker_info[i].vertex, 0, 0 );
+    }
   }
 
   /* check for known patterns */

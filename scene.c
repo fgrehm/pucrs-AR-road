@@ -16,7 +16,7 @@
 #include "scene.h"
 
 double distance = 0;
-int showBuildings = 1;
+int showBuildings = 0;
 
 static void drawMarker(double trans1[3][4], double trans2[3][4], int mode);
 static void drawCube(double trans1[3][4], double trans2[3][4], double x, double y, double z, GLfloat color[3], GLdouble size);
@@ -93,7 +93,7 @@ void drawCarsAndStaticBuildings(int executionTime) {
   // if (distance >= 300) {
   //   distance = 0;
   // }
-  if (arDebug) {
+  if (debugLevel >= 3) {
     printf("distance = %f\n", distance);
   }
   // Cars
@@ -139,8 +139,10 @@ void drawCube(double trans1[3][4], double trans2[3][4], double x, double y, doub
   glPushMatrix();
   glMatrixMode(GL_MODELVIEW);
   glTranslatef( x, y, size/2 + z );
-  if( !arDebug ) glutSolidCube(size);
-  else          glutWireCube(size);
+  if( debugLevel < 3 )
+    glutSolidCube(size);
+  else
+    glutWireCube(size);
   glDisable( GL_LIGHTING );
 
   glDisable( GL_DEPTH_TEST );

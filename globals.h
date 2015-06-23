@@ -20,4 +20,7 @@ static GLfloat blue[]  = {0.0, 0.0, 1.0, 1.0};
 static GLfloat red[]   = {1.0, 0.0, 0.0, 1.0};
 static GLfloat green[] = {0.0, 1.0, 0.0, 1.0};
 
+/* Debugging */
+extern int debugLevel;
+
 #endif
