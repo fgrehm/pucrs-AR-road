@@ -14,6 +14,11 @@ int           totalBuildingMarkers;
 
 /* scene settings */
 extern int showBuildings;
+static double buildingRelativePosition[3][2] = {
+  {160, -230},
+  {310, 0},
+  {460, 0},
+};
 
 /* colors */
 static GLfloat blue[]   = {0.0, 0.0, 1.0, 1.0};

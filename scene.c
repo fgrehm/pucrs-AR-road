@@ -62,14 +62,28 @@ void drawCarsAndStaticBuildings(int executionTime) {
   //    if( multiMarkerConfig->marker[i].visible >= 0 ) drawMarker( multiMarkerConfig->trans, multiMarkerConfig->marker[i].trans, 0 );
   //    else                                 drawMarker( multiMarkerConfig->trans, multiMarkerConfig->marker[i].trans, 1 );
   //}
-  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 301, 0, 0, green, 100);
-  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 301, 0, 100, green, 100);
-
   drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -60, -110, 0, green, 100);
   drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -60, -110, 100, green, 100);
 
   drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 810, -100, 0, green, 100);
   drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 810, -100, 100, green, 100);
+
+  for (i = 0; i < totalBuildingMarkers; i++) {
+    // Skip visible markers
+    if (buildingMarkers[i].visible == 1) continue;
+
+    if (!showBuildings) {
+      glDepthMask(GL_TRUE);
+      glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+    }
+    double *position = buildingRelativePosition[i];
+
+    drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, position[0], position[1], 0, red, 100);
+    drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, position[0], position[1], 100, red, 100);
+    if (!showBuildings) {
+      glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    }
+  }
 
   // drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 451, 0, green, 100);
   // drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 160, -230, green, 100);
@@ -88,8 +102,10 @@ void drawCarsAndStaticBuildings(int executionTime) {
   }
 
   // Cars
-  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -100+distance, -90, 0, green, 30);
+  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -100+distance, -90, 0, blue, 30);
+  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -145+distance, -90, 0, red, 30);
   drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 800-distance, -140, 0, red, 30);
+  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 845-distance, -140, 0, blue, 30);
 }
 
 void drawMarker(double trans1[3][4], double trans2[3][4], int mode) {
