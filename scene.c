@@ -35,7 +35,14 @@ void drawBuildingsThatHaveMarkers() {
   for (i = 0; i < totalBuildingMarkers; i++) {
     if (buildingMarkers[i].visible == 0) continue;
     argConvGlpara(buildingMarkers[i].trans, gl_para);
+    if (!showBuildings) {
+      glDepthMask(GL_TRUE);
+      glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+    }
     drawBuildingFromMarker(buildingMarkers[i].id, gl_para);
+    if (!showBuildings) {
+      glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    }
   }
 
   glDisable( GL_LIGHTING );
