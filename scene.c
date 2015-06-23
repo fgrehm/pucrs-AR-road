@@ -65,8 +65,8 @@ void drawCarsAndStaticBuildings(int executionTime) {
   drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -60, -110, 0, green, 100);
   drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -60, -110, 100, green, 100);
 
-  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 810, -100, 0, green, 100);
-  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 810, -100, 100, green, 100);
+  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 810, -110, 0, green, 100);
+  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 810, -110, 100, green, 100);
 
   for (i = 0; i < totalBuildingMarkers; i++) {
     // Skip visible markers

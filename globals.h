@@ -15,9 +15,12 @@ int           totalBuildingMarkers;
 /* scene settings */
 extern int showBuildings;
 static double buildingRelativePosition[3][2] = {
-  {160, -230},
+  // 1
   {310, 0},
-  {460, 0},
+  // 4
+  {160, -220},
+  // 5
+  {610, -220},
 };
 
 /* colors */
