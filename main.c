@@ -300,20 +300,13 @@ static int  draw_object( int obj_id, double gl_para[16])
 
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_flash_shiny);
 
-	if(obj_id == 0){
-		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_flash_collide);
-		glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_collide);
-		/* draw a cube */
-		glTranslatef( 0.0, 0.0, 30.0 );
-		glutSolidSphere(30,12,6);
-	}
-	else {
-		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_flash);
-		glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-		/* draw a cube */
-		glTranslatef( 0.0, 0.0, 30.0 );
-		glutSolidCube(60);
-	}
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_flash);
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+    /* draw a cube */
+    glTranslatef( 0.0, 0.0, -50.0 );
+    glutSolidCube(100);
+    glTranslatef( 0.0, 0.0, -100.0 );
+    glutSolidCube(100);
 
     argDrawMode2D();
 

@@ -18,7 +18,7 @@ double distance = 0;
 int showBuildings = 1;
 
 static void drawMarker(double trans1[3][4], double trans2[3][4], int mode);
-static void drawCube(double trans1[3][4], double trans2[3][4], double x, double y, GLfloat color[3], GLdouble size);
+static void drawCube(double trans1[3][4], double trans2[3][4], double x, double y, double z, GLfloat color[3], GLdouble size);
 
 void drawScene(int executionTime) {
   int i;
@@ -51,13 +51,15 @@ void drawScene(int executionTime) {
     glDepthMask(GL_TRUE);
     glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
   }
-  for( i = 0; i < multiMarkerConfig->marker_num; i++ ) {
-      //printf("Marker %d, visible %d\n", i, multiMarkerConfig->marker[i].visible);
-      if( multiMarkerConfig->marker[i].visible >= 0 ) drawMarker( multiMarkerConfig->trans, multiMarkerConfig->marker[i].trans, 0 );
-      else                                 drawMarker( multiMarkerConfig->trans, multiMarkerConfig->marker[i].trans, 1 );
-  }
-  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 301, 0, green, 100);
-  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 160, -230, green, 100);
+  //for( i = 0; i < multiMarkerConfig->marker_num; i++ ) {
+  //    //printf("Marker %d, visible %d\n", i, multiMarkerConfig->marker[i].visible);
+  //    if( multiMarkerConfig->marker[i].visible >= 0 ) drawMarker( multiMarkerConfig->trans, multiMarkerConfig->marker[i].trans, 0 );
+  //    else                                 drawMarker( multiMarkerConfig->trans, multiMarkerConfig->marker[i].trans, 1 );
+  //}
+  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 301, 0, 0, green, 100);
+  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 301, 0, 100, green, 100);
+  // drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 451, 0, green, 100);
+  // drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 160, -230, green, 100);
   if (!showBuildings) {
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
   }
@@ -72,18 +74,18 @@ void drawScene(int executionTime) {
     printf("distance = %f\n", distance);
   }
   // Cars
-  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -100+distance, -90, green, 30);
-  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 800-distance, -140, red, 30);
+  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -100+distance, -90, 0, green, 30);
+  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 800-distance, -140, 0, red, 30);
 }
 
 void drawMarker(double trans1[3][4], double trans2[3][4], int mode) {
     if (mode == 1)
-        drawCube(trans1, trans2, 0, 0, red, 40);
+        drawCube(trans1, trans2, 0, 0, 0, red, 20);
     else
-        drawCube(trans1, trans2, 0, 0, blue, 40);
+        drawCube(trans1, trans2, 0, 0, 0, blue, 20);
 }
 
-void drawCube(double trans1[3][4], double trans2[3][4], double x, double y, GLfloat color[], GLdouble size) {
+void drawCube(double trans1[3][4], double trans2[3][4], double x, double y, double z, GLfloat color[], GLdouble size) {
     double    gl_para[16];
     GLfloat   mat_ambient[]     = {color[0], color[1], color[2], color[3]};
     GLfloat   mat_flash[]       = {color[0], color[1], color[2], color[3]};
@@ -111,11 +113,13 @@ void drawCube(double trans1[3][4], double trans2[3][4], double x, double y, GLfl
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_flash_shiny);
     glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
 
+    glPushMatrix();
     glMatrixMode(GL_MODELVIEW);
-    glTranslatef( x, y, size/2 );
+    glTranslatef( x, y, size/2 + z );
     if( !arDebug ) glutSolidCube(size);
      else          glutWireCube(size);
     glDisable( GL_LIGHTING );
 
     glDisable( GL_DEPTH_TEST );
+    glPopMatrix();
 }
