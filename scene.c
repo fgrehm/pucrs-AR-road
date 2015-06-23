@@ -16,7 +16,7 @@
 #include "scene.h"
 
 double distance = 0;
-int showBuildings = 1;
+int showBuildings = 0;
 
 static void drawCubeBasedOnRoadMarker(double trans1[3][4], double trans2[3][4], double x, double y, double z, GLfloat color[3], GLdouble size);
 static void drawBuildingBasedOnRoadMarker(double trans1[3][4], double trans2[3][4], double x, double y, GLfloat color[3]);
