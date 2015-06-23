@@ -19,7 +19,8 @@ double distance = 0;
 int showBuildings = 1;
 
 static void drawCubeBasedOnRoadMarker(double trans1[3][4], double trans2[3][4], double x, double y, double z, GLfloat color[3], GLdouble size);
-static int  drawBuildingBasedOnMarker(int markerId, double gl_para[16]);
+static void drawBuildingBasedOnRoadMarker(double trans1[3][4], double trans2[3][4], double x, double y, GLfloat color[3]);
+static void drawBuildingBasedOnMarker(int markerId, double gl_para[16]);
 static void drawSolidCube(double x, double y, double z, GLfloat color[], GLdouble size);
 
 void drawBuildingsThatHaveMarkers() {
@@ -56,12 +57,8 @@ void drawCarsAndStaticBuildings(int executionTime) {
     glDepthMask(GL_TRUE);
     glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
   }
-  // draw
-  drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -60, -110, 0, green, 100);
-  drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -60, -110, 100, green, 100);
-
-  drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 810, -110, 0, green, 100);
-  drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 810, -110, 100, green, 100);
+  drawBuildingBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -60, -110, green);
+  drawBuildingBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 810, -110, green);
 
   for (i = 0; i < totalBuildingMarkers; i++) {
     // Skip visible markers
@@ -73,8 +70,7 @@ void drawCarsAndStaticBuildings(int executionTime) {
     }
     double *position = buildingRelativePosition[i];
 
-    drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, position[0], position[1], 0, red, 100);
-    drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, position[0], position[1], 100, red, 100);
+    drawBuildingBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, position[0], position[1], red);
     if (!showBuildings) {
       glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     }
@@ -97,6 +93,20 @@ void drawCarsAndStaticBuildings(int executionTime) {
   drawCubeBasedOnRoadMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 845-distance, -140, 0, blue, 30);
 }
 
+void drawBuildingBasedOnMarker(int markerId, double gl_para[16]) {
+  /* load the camera transformation matrix */
+  glMatrixMode(GL_MODELVIEW);
+  glLoadMatrixd( gl_para );
+
+  drawSolidCube(0, 0, -100, yellow, 100);
+  drawSolidCube(0, 0, -200, yellow, 100);
+}
+
+void drawBuildingBasedOnRoadMarker(double trans1[3][4], double trans2[3][4], double x, double y, GLfloat color[3]) {
+  drawCubeBasedOnRoadMarker(trans1, trans2, x, y, 0, color, 100);
+  drawCubeBasedOnRoadMarker(trans1, trans2, x, y, 100, color, 100);
+}
+
 void drawCubeBasedOnRoadMarker(double trans1[3][4], double trans2[3][4], double x, double y, double z, GLfloat color[], GLdouble size) {
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LEQUAL);
@@ -112,17 +122,6 @@ void drawCubeBasedOnRoadMarker(double trans1[3][4], double trans2[3][4], double 
   drawSolidCube(x, y, z, color, size);
 
   glDisable( GL_DEPTH_TEST );
-}
-
-int drawBuildingBasedOnMarker(int markerId, double gl_para[16]) {
-  /* load the camera transformation matrix */
-  glMatrixMode(GL_MODELVIEW);
-  glLoadMatrixd( gl_para );
-
-  drawSolidCube(0, 0, -100, yellow, 100);
-  drawSolidCube(0, 0, -200, yellow, 100);
-
-  return 0;
 }
 
 void drawSolidCube(double x, double y, double z, GLfloat color[], GLdouble size) {
