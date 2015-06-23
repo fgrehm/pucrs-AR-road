@@ -47,29 +47,6 @@ void drawBuildingsThatHaveMarkers() {
 void drawCarsAndStaticBuildings(int executionTime) {
   int i;
 
-  //for(i=0;i<3;i++) {
-  //  int j;
-  //    for(j=0;j<4;j++) printf("%10.5f ", multiMarkerConfig->trans[i][j]);
-  //    printf("\n");
-  //}
-  //printf("\n");
-  argDrawMode3D();
-  argDraw3dCamera( 0, 0 );
-  glClearDepth( 1.0 );
-  glClear(GL_DEPTH_BUFFER_BIT);
-
-  // for( i = 0; i < multiMarkerConfig->marker_num; i++ ) {
-  //     if (multiMarkerConfig->marker[i].visible < 0) continue;
-
-  //     // printf("Will draw relative to %d\n", i);
-  //     drawMarker(multiMarkerConfig->trans, multiMarkerConfig->marker[i].trans, 0);
-  //     drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[i].trans, 30, 0.0);
-  //     drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[i].trans, 0.0, 30);
-
-  //     break;
-  // }
-  //
-
   if (!showBuildings) {
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);

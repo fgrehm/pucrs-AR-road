@@ -180,6 +180,11 @@ static void mainLoop(void)
 
   arVideoCapNext();
 
+  argDrawMode3D();
+  argDraw3dCamera( 0, 0 );
+  glClearDepth( 1.0 );
+  glClear(GL_DEPTH_BUFFER_BIT);
+
   if( (err=arMultiGetTransMat(marker_info, marker_num, multiMarkerConfig)) < 0 ) {
     drawBuildingsThatHaveMarkers();
     argSwapBuffers();
@@ -194,8 +199,8 @@ static void mainLoop(void)
     return;
   }
 
-  drawCarsAndStaticBuildings(ms);
   drawBuildingsThatHaveMarkers();
+  drawCarsAndStaticBuildings(ms);
 
   argSwapBuffers();
 }
