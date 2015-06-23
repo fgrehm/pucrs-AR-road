@@ -16,9 +16,10 @@ int           totalBuildingMarkers;
 extern int showBuildings;
 
 /* colors */
-static GLfloat blue[]  = {0.0, 0.0, 1.0, 1.0};
-static GLfloat red[]   = {1.0, 0.0, 0.0, 1.0};
-static GLfloat green[] = {0.0, 1.0, 0.0, 1.0};
+static GLfloat blue[]   = {0.0, 0.0, 1.0, 1.0};
+static GLfloat red[]    = {1.0, 0.0, 0.0, 1.0};
+static GLfloat green[]  = {0.0, 1.0, 0.0, 1.0};
+static GLfloat yellow[] = {1.0, 1.0, 0.0, 1.0};
 
 /* Debugging */
 extern int debugLevel;

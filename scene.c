@@ -114,8 +114,8 @@ int drawBuildingFromMarker(int markerId, double gl_para[16]) {
   glMatrixMode(GL_MODELVIEW);
   glLoadMatrixd( gl_para );
 
-  drawSolidCube(0, 0, -100, green, 100);
-  drawSolidCube(0, 0, -200, green, 100);
+  drawSolidCube(0, 0, -100, yellow, 100);
+  drawSolidCube(0, 0, -200, yellow, 100);
 
   return 0;
 }
