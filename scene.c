@@ -27,8 +27,6 @@ void drawBuildingsThatHaveMarkers() {
   int     i;
   double  gl_para[16];
 
-  glClearDepth( 1.0 );
-  glClear(GL_DEPTH_BUFFER_BIT);
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LEQUAL);
   glEnable(GL_LIGHTING);
