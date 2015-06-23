@@ -1,6 +1,7 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-void drawScene(int executionTime);
+void drawBuildingsThatHaveMarkers();
+void drawCarsAndStaticBuildings(int executionTime);
 
 #endif

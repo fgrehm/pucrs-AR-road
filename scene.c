@@ -12,6 +12,7 @@
 #endif
 
 #include "globals.h"
+#include "object.h"
 #include "scene.h"
 
 double distance = 0;
@@ -19,8 +20,30 @@ int showBuildings = 1;
 
 static void drawMarker(double trans1[3][4], double trans2[3][4], int mode);
 static void drawCube(double trans1[3][4], double trans2[3][4], double x, double y, double z, GLfloat color[3], GLdouble size);
+static int  drawBuildingFromMarker(int markerId, double gl_para[16]);
 
-void drawScene(int executionTime) {
+void drawBuildingsThatHaveMarkers() {
+  int     i;
+  double  gl_para[16];
+
+  glClearDepth( 1.0 );
+  glClear(GL_DEPTH_BUFFER_BIT);
+  glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LEQUAL);
+  glEnable(GL_LIGHTING);
+
+  /* calculate the viewing parameters - gl_para */
+  for (i = 0; i < totalBuildingMarkers; i++) {
+    if (buildingMarkers[i].visible == 0) continue;
+    argConvGlpara(buildingMarkers[i].trans, gl_para);
+    drawBuildingFromMarker(buildingMarkers[i].id, gl_para);
+  }
+
+  glDisable( GL_LIGHTING );
+  glDisable( GL_DEPTH_TEST );
+}
+
+void drawCarsAndStaticBuildings(int executionTime) {
   int i;
 
   //for(i=0;i<3;i++) {
@@ -124,4 +147,39 @@ void drawCube(double trans1[3][4], double trans2[3][4], double x, double y, doub
   glPopMatrix();
 }
 
+int drawBuildingFromMarker(int markerId, double gl_para[16]) {
+  GLfloat   mat_ambient[]				= {0.0, 0.0, 1.0, 1.0};
+  GLfloat   mat_ambient_collide[]     = {1.0, 0.0, 0.0, 1.0};
+  GLfloat   mat_flash[]				= {0.0, 0.0, 1.0, 1.0};
+  GLfloat   mat_flash_collide[]       = {1.0, 0.0, 0.0, 1.0};
+  GLfloat   mat_flash_shiny[] = {50.0};
+  GLfloat   light_position[]  = {100.0,-200.0,200.0,0.0};
+  GLfloat   ambi[]            = {0.1, 0.1, 0.1, 0.1};
+  GLfloat   lightZeroColor[]  = {0.9, 0.9, 0.9, 0.1};
+
+  argDrawMode3D();
+  argDraw3dCamera( 0, 0 );
+  glMatrixMode(GL_MODELVIEW);
+  glLoadMatrixd( gl_para );
+
+  /* set the material */
+  glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT0);
+  glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+  glLightfv(GL_LIGHT0, GL_AMBIENT, ambi);
+  glLightfv(GL_LIGHT0, GL_DIFFUSE, lightZeroColor);
+
+  glMaterialfv(GL_FRONT, GL_SHININESS, mat_flash_shiny);
+
+  glMaterialfv(GL_FRONT, GL_SPECULAR, mat_flash);
+  glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+  /* draw a cube */
+  glTranslatef( 0.0, 0.0, -50.0 );
+  glutSolidCube(100);
+  glTranslatef( 0.0, 0.0, -100.0 );
+  glutSolidCube(100);
+
+  argDrawMode2D();
+
+  return 0;
 }

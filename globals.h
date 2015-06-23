@@ -3,7 +3,14 @@
 
 #include <AR/arMulti.h>
 
+#include "object.h"
+
+/* Road multi marker configs */
 ARMultiMarkerInfoT  *multiMarkerConfig;
+
+/* Independent buildings settings */
+ObjectData_T *buildingMarkers;
+int           totalBuildingMarkers;
 
 /* scene settings */
 extern int showBuildings;
