@@ -128,38 +128,12 @@ void drawCube(double trans1[3][4], double trans2[3][4], double x, double y, doub
 }
 
 int drawBuildingFromMarker(int markerId, double gl_para[16]) {
-  GLfloat   mat_ambient[]				= {0.0, 0.0, 1.0, 1.0};
-  GLfloat   mat_ambient_collide[]     = {1.0, 0.0, 0.0, 1.0};
-  GLfloat   mat_flash[]				= {0.0, 0.0, 1.0, 1.0};
-  GLfloat   mat_flash_collide[]       = {1.0, 0.0, 0.0, 1.0};
-  GLfloat   mat_flash_shiny[] = {50.0};
-  GLfloat   light_position[]  = {100.0,-200.0,200.0,0.0};
-  GLfloat   ambi[]            = {0.1, 0.1, 0.1, 0.1};
-  GLfloat   lightZeroColor[]  = {0.9, 0.9, 0.9, 0.1};
-
-  argDrawMode3D();
-  argDraw3dCamera( 0, 0 );
+  /* load the camera transformation matrix */
   glMatrixMode(GL_MODELVIEW);
   glLoadMatrixd( gl_para );
 
-  /* set the material */
-  glEnable(GL_LIGHTING);
-  glEnable(GL_LIGHT0);
-  glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-  glLightfv(GL_LIGHT0, GL_AMBIENT, ambi);
-  glLightfv(GL_LIGHT0, GL_DIFFUSE, lightZeroColor);
-
-  glMaterialfv(GL_FRONT, GL_SHININESS, mat_flash_shiny);
-
-  glMaterialfv(GL_FRONT, GL_SPECULAR, mat_flash);
-  glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-  /* draw a cube */
-  glTranslatef( 0.0, 0.0, -50.0 );
-  glutSolidCube(100);
-  glTranslatef( 0.0, 0.0, -100.0 );
-  glutSolidCube(100);
-
-  argDrawMode2D();
+  drawSolidCube(0, 0, -100, green, 100);
+  drawSolidCube(0, 0, -200, green, 100);
 
   return 0;
 }
