@@ -21,6 +21,7 @@ int showBuildings = 0;
 static void drawMarker(double trans1[3][4], double trans2[3][4], int mode);
 static void drawCube(double trans1[3][4], double trans2[3][4], double x, double y, double z, GLfloat color[3], GLdouble size);
 static int  drawBuildingFromMarker(int markerId, double gl_para[16]);
+static void drawSolidCube(double x, double y, double z, GLfloat color[], GLdouble size);
 
 void drawBuildingsThatHaveMarkers() {
   int     i;
@@ -69,10 +70,6 @@ void drawCarsAndStaticBuildings(int executionTime) {
   // }
   //
 
-  // Cars
-  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -100+distance, -90, 0, green, 30);
-  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 800-distance, -140, 0, red, 30);
-
   if (!showBuildings) {
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
@@ -100,6 +97,10 @@ void drawCarsAndStaticBuildings(int executionTime) {
   if (debugLevel >= 3) {
     printf("distance = %f\n", distance);
   }
+
+  // Cars
+  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, -100+distance, -90, 0, green, 30);
+  drawCube(multiMarkerConfig->trans, multiMarkerConfig->marker[0].trans, 800-distance, -140, 0, red, 30);
 }
 
 void drawMarker(double trans1[3][4], double trans2[3][4], int mode) {
@@ -110,44 +111,20 @@ void drawMarker(double trans1[3][4], double trans2[3][4], int mode) {
 }
 
 void drawCube(double trans1[3][4], double trans2[3][4], double x, double y, double z, GLfloat color[], GLdouble size) {
-  double    gl_para[16];
-  GLfloat   mat_ambient[]     = {color[0], color[1], color[2], color[3]};
-  GLfloat   mat_flash[]       = {color[0], color[1], color[2], color[3]};
-  GLfloat   mat_flash_shiny[] = {90.0};
-  GLfloat   light_position[]  = {100.0,-200.0,200.0,0.0};
-  GLfloat   ambi[]            = {0.1, 0.1, 0.1, 0.1};
-  GLfloat   lightZeroColor[]  = {0.9, 0.9, 0.9, 0.1};
-
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LEQUAL);
 
   /* load the camera transformation matrix */
+  double    gl_para[16];
   glMatrixMode(GL_MODELVIEW);
   argConvGlpara(trans1, gl_para);
   glLoadMatrixd( gl_para );
   argConvGlpara(trans2, gl_para);
   glMultMatrixd( gl_para );
 
-  glEnable(GL_LIGHTING);
-  glEnable(GL_LIGHT0);
-  glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-  glLightfv(GL_LIGHT0, GL_AMBIENT, ambi);
-  glLightfv(GL_LIGHT0, GL_DIFFUSE, lightZeroColor);
-  glMaterialfv(GL_FRONT, GL_SPECULAR, mat_flash);
-  glMaterialfv(GL_FRONT, GL_SHININESS, mat_flash_shiny);
-  glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-
-  glPushMatrix();
-  glMatrixMode(GL_MODELVIEW);
-  glTranslatef( x, y, size/2 + z );
-  if( debugLevel < 3 )
-    glutSolidCube(size);
-  else
-    glutWireCube(size);
-  glDisable( GL_LIGHTING );
+  drawSolidCube(x, y, z, color, size);
 
   glDisable( GL_DEPTH_TEST );
-  glPopMatrix();
 }
 
 int drawBuildingFromMarker(int markerId, double gl_para[16]) {
@@ -185,4 +162,34 @@ int drawBuildingFromMarker(int markerId, double gl_para[16]) {
   argDrawMode2D();
 
   return 0;
+}
+
+// TODO: Rename to something else
+void drawSolidCube(double x, double y, double z, GLfloat color[], GLdouble size) {
+  GLfloat   mat_ambient[]     = {color[0], color[1], color[2], color[3]};
+  GLfloat   mat_flash[]       = {color[0], color[1], color[2], color[3]};
+  GLfloat   mat_flash_shiny[] = {90.0};
+  GLfloat   light_position[]  = {100.0,-200.0,200.0,0.0};
+  GLfloat   ambi[]            = {0.1, 0.1, 0.1, 0.1};
+  GLfloat   lightZeroColor[]  = {0.9, 0.9, 0.9, 0.1};
+
+  glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT0);
+  glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+  glLightfv(GL_LIGHT0, GL_AMBIENT, ambi);
+  glLightfv(GL_LIGHT0, GL_DIFFUSE, lightZeroColor);
+  glMaterialfv(GL_FRONT, GL_SPECULAR, mat_flash);
+  glMaterialfv(GL_FRONT, GL_SHININESS, mat_flash_shiny);
+  glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+
+  glPushMatrix();
+  glMatrixMode(GL_MODELVIEW);
+  glTranslatef( x, y, size/2 + z );
+  if( debugLevel < 3 )
+    glutSolidCube(size);
+  else
+    glutWireCube(size);
+  glDisable( GL_LIGHTING );
+
+  glPopMatrix();
 }
