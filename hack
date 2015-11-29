@@ -12,7 +12,6 @@ docker run -ti --rm \
            --device /dev/video${DEVICE}:/dev/video0 \
            -v /home/fabio/projects/faculdade/pucrs-ar-road:/tmp/src \
            -w /tmp/src \
-           fgrehm/artoolkit:2.72.1 \
-           bash -c 'make && ./pucrs-ar-road'
+           fgrehm/artoolkit:2.72.1 bash
 
 xhost -
